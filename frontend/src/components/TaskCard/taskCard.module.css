@@ -1,0 +1,77 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.cardTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cardDescription {
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+
+.cardShowMore {
+  font-size: 1.4rem;
+  color: var(--primary-color);
+}
+
+.priority {
+  text-transform: uppercase;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--error-color);
+}
+
+.dateStarted {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.dateContainer {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  margin-top: 2rem;
+}
+
+.dateLabel {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.openTask {
+  margin-left: auto;
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.done,
+.open,
+.inProgress {
+  height: 1rem;
+  border-radius: 0px 10px 0px 10px;
+  margin-bottom: 0.5rem;
+}
+
+.done {
+  background-color: var(--done-color);
+}
+
+.inProgress {
+  background-color: var(--inprogress-color);
+}
+
+.open {
+  background-color: var(--todo-color);
+}

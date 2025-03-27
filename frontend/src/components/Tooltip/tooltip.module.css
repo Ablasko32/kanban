@@ -1,0 +1,7 @@
+.tooltipBody {
+  padding: 8px;
+  font-size: 12px;
+  border-radius: 15px;
+  background-color: #333333;
+  color: var(--card-bg);
+}

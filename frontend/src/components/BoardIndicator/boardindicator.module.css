@@ -1,0 +1,23 @@
+.boardIndicatorContainer {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  margin-left: 10rem;
+}
+
+.indicatorItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.boardName {
+  font-weight: 600;
+  padding: 0 1rem;
+  border-right: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
+}
+
+.boardCreatedAt {
+  font-size: 1.2rem;
+}

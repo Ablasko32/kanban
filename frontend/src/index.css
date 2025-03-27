@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+:root {
+  --bg-color: #f8f9fa;
+  --primary-color: #007bff;
+  --text-color: #333333;
+  --card-bg: #ffffff;
+  --border-color: #e0e0e0;
+
+  --todo-color: #ffdd57;
+  --inprogress-color: #56ccf2;
+  --done-color: #27ae60;
+
+  --error-color: #e74c3c;
+  --hover-color: #d6e4f0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-family: sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Inter", "sans-serif";
+}
+
+input,
+textarea,
+button,
+select {
+  font: inherit;
+  border: none;
+  outline: none;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
