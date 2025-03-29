@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import KanbanPage from "./pages/kanban/KanbanPage";
 import CreateBoard from "./pages/create-board/CreateBoard";
+import { ToastContainer } from "react-toastify";
+import TaskDetails from "./pages/task-details/TaskDetails";
 
 function App() {
   return (
@@ -21,9 +23,16 @@ function App() {
               <Route path="/" element={<Navigate to="/board" />} />
               <Route path="/board" element={<KanbanPage />} />
               <Route path="/create-board" element={<CreateBoard />} />
+              <Route path="/task/:id" element={<TaskDetails />} />
             </Routes>
           </div>
         </div>
+
+        <ToastContainer
+          aria-label="Notifications"
+          position="bottom-right"
+          autoClose={5000}
+        />
       </StoreProvider>
     </Router>
   );

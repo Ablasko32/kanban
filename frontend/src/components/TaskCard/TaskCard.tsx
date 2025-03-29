@@ -3,7 +3,6 @@ import { TaskData } from "../../stores/taskStore";
 import styles from "./taskCard.module.css";
 import TextExpander from "../TextExpander/TextExpander";
 import {
-  HiArrowCircleRight,
   HiFire,
   HiOutlineCalendar,
   HiOutlineChevronDoubleRight,
@@ -15,7 +14,7 @@ const TaskCard = ({ task }: { task: TaskData }) => {
   // Style based on task status
   const cardStyles = {
     done: styles.done,
-    inProgress: styles.inProgress,
+    progress: styles.inProgress,
     open: styles.open,
   };
 
@@ -52,8 +51,8 @@ const TaskCard = ({ task }: { task: TaskData }) => {
 
       <p className={styles.priority}>
         <Tooltip text="Task priority">
-          {[...Array(fireNumber[task.priority])].map((el) => {
-            return <HiFire key={el} />;
+          {[...Array(fireNumber[task.priority])].map((el, idx) => {
+            return <HiFire key={idx} />;
           })}
         </Tooltip>
       </p>

@@ -1,0 +1,49 @@
+.taskName {
+  text-align: center;
+  margin-bottom: 4rem;
+  font-weight: 600;
+}
+
+.detailsBox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  margin-bottom: 6rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.taskDescription {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.openStatus,
+.doneStatus,
+.progressStatus {
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--bg-color);
+}
+
+.openStatus {
+  background-color: var(--todo-color);
+}
+
+.doneStatus {
+  background-color: var(--done-color);
+}
+
+.progressStatus {
+  background-color: var(--inprogress-color);
+}
+
+.priority {
+  color: var(--error-color);
+  font-weight: 700;
+  font-size: 1.4rem;
+}

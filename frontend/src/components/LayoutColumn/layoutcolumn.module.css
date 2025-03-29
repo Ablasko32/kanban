@@ -54,8 +54,22 @@
   margin-top: 2rem;
 }
 
-input {
+input,
+select {
   border: 1px solid var(--border-color);
   padding: 0.5rem 1rem;
   border-radius: 10px;
+}
+
+.submitButton {
+  background-color: var(--primary-color);
+  padding: 0.5rem 2rem;
+  margin: 0 auto;
+  color: var(--card-bg);
+  border-radius: 15px;
+}
+.formError {
+  color: var(--error-color);
+  font-size: 1.1rem;
+  text-align: center;
 }

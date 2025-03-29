@@ -1,0 +1,33 @@
+.taskIndicatorContainer {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.indicatorItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.boardName {
+  font-weight: 600;
+  padding: 0 1rem;
+  border-right: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
+}
+
+.taskCreatedAt,
+.taskDueDate {
+  font-size: 1.2rem;
+}
+
+header {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.backButton {
+  justify-self: flex-start;
+  color: var(--primary-color);
+}

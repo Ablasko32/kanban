@@ -20,7 +20,7 @@ const Layout = observer(() => {
 
   const [{}, progressDropRef] = useDrop(() => ({
     accept: "TASK",
-    drop: (item: { id: string }) => handleDrop(item.id, "inProgress"),
+    drop: (item: { id: string }) => handleDrop(item.id, "progress"),
   }));
 
   const [{}, doneDropRef] = useDrop(() => ({

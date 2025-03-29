@@ -1,6 +1,6 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable, toJS } from "mobx";
 
-export type TaskStatus = "open" | "inProgress" | "done";
+export type TaskStatus = "open" | "progress" | "done";
 export type TaskPriority = "low" | "med" | "high";
 
 export interface TaskData {
@@ -28,7 +28,7 @@ const placeholderData: TaskData[] = [
     description:
       "Creating list style dropdown for list style dropdown etch etch etch i need to create drowpdpwn ",
     priority: "med",
-    status: "inProgress",
+    status: "progress",
     createdAt: new Date(),
   },
   {
@@ -61,7 +61,7 @@ export class TaskStore {
 
   @computed
   get allProgressTasks() {
-    return this.tasks.filter((task) => task.status === "inProgress");
+    return this.tasks.filter((task) => task.status === "progress");
   }
 
   @action
@@ -69,5 +69,17 @@ export class TaskStore {
     const targetTask = this.tasks.find((task) => task.id === taskId);
     if (!targetTask) return;
     targetTask.status = taskStatus;
+  }
+
+  @action
+  handleAddTask(taskData: TaskData) {
+    if (!taskData) return;
+    // console.log(taskData);
+    this.tasks.push(taskData);
+  }
+
+  @action.bound
+  retriveTaskByID(id: string) {
+    return this.tasks.filter((task) => task.id === id)[0];
   }
 }

@@ -1,0 +1,41 @@
+.documentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 14rem;
+  overflow-y: scroll;
+}
+
+.documentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.uploadedDocumentsTitle {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.container {
+  height: 100%;
+}
+
+.buttonBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+}
+
+.deleteButton {
+  color: var(--error-color);
+}
+
+.downloadButton {
+  color: var(--primary-color);
+}

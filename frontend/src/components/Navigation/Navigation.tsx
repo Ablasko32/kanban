@@ -24,7 +24,7 @@ const Navigation = () => {
           </Link>
         </li>
       </ul>
-      <section className={styles.boardSection}>
+      {/* <section className={styles.boardSection}>
         <p className={styles.favouritesTitle}>
           <HiOutlineHeart /> My favourites
         </p>
@@ -36,7 +36,7 @@ const Navigation = () => {
             <li>Board 1</li>
           </ul>
         </div>
-      </section>
+      </section> */}
 
       {/* <div className={styles.timerContainer}>
         <p>Track your time</p>
