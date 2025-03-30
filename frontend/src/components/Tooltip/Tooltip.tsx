@@ -29,7 +29,12 @@ const Tooltip = ({
     placement: "bottom",
   });
 
-  const hover = useHover(context);
+  const hover = useHover(context, {
+    delay: {
+      open: 500,
+      close: 0,
+    },
+  });
 
   const { getFloatingProps, getReferenceProps } = useInteractions([hover]);
 

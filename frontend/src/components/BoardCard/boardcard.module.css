@@ -1,0 +1,27 @@
+.boardCard {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  width: 20rem;
+  height: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.openBoard {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.delete {
+  color: var(--error-color);
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

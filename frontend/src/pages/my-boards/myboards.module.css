@@ -1,0 +1,15 @@
+.boardsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  margin-top: 4rem;
+}
+
+.boardTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.2rem 0;
+  padding-left: 4rem;
+}

@@ -8,7 +8,7 @@ import {
   Routes,
 } from "react-router-dom";
 import KanbanPage from "./pages/kanban/KanbanPage";
-import CreateBoard from "./pages/create-board/CreateBoard";
+import MyBoards from "./pages/my-boards/MyBoards";
 import { ToastContainer } from "react-toastify";
 import TaskDetails from "./pages/task-details/TaskDetails";
 
@@ -22,7 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Navigate to="/board" />} />
               <Route path="/board" element={<KanbanPage />} />
-              <Route path="/create-board" element={<CreateBoard />} />
+              <Route path="/create-board" element={<MyBoards />} />
               <Route path="/task/:id" element={<TaskDetails />} />
             </Routes>
           </div>
