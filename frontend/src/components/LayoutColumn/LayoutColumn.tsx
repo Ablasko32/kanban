@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { TaskData } from "../../stores/taskStore";
 import TaskCard from "../TaskCard/TaskCard";
 import Tooltip from "../Tooltip/Tooltip";
@@ -8,6 +8,7 @@ import { HiOutlineInformationCircle, HiPlusCircle } from "react-icons/hi";
 import { observer } from "mobx-react";
 import Modal from "../Modal/Modal";
 import { CreateTaskForm } from "./CreateTaskForm";
+import { modalStore } from "../../stores/modalStore";
 
 type RenderType = "progress" | "done" | "open";
 
@@ -29,11 +30,52 @@ const LayoutColumn = observer(
       open: rootStore.taskStore.allOpenTasks,
     };
 
-    const formInstance = useRef(new CreateTaskForm(rootStore));
+    const formInstance = useMemo(
+      () => new CreateTaskForm(rootStore),
+      [rootStore]
+    );
 
-    const createTaskForm = formInstance.current;
+    const createTaskForm = formInstance;
 
     createTaskForm.$("type").set(type);
+
+    const CreateTask = observer(() => {
+      return (
+        <div>
+          <h3>Create a new task</h3>
+          <form onSubmit={createTaskForm.onSubmit} className={styles.taskForm}>
+            <input {...createTaskForm.$("type").bind()} />
+
+            <input {...createTaskForm.$("taskTitle").bind()} />
+            {createTaskForm.$("taskTitle").error && (
+              <p className={styles.formError}>
+                {createTaskForm.$("taskTitle").error}
+              </p>
+            )}
+            <input {...createTaskForm.$("taskDescription").bind()} />
+            {createTaskForm.$("taskDescription").error && (
+              <p className={styles.formError}>
+                {createTaskForm.$("taskDescription").error}
+              </p>
+            )}
+            <select {...createTaskForm.$("taskPriority").bind()}>
+              <option value="">Select Priority</option>
+              {createTaskForm.$("taskPriority").options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {createTaskForm.$("taskPriority").error && (
+              <p className={styles.formError}>
+                {createTaskForm.$("taskPriority").error}
+              </p>
+            )}
+            <button className={styles.submitButton}>Add</button>
+          </form>
+        </div>
+      );
+    });
 
     return (
       <div ref={reference} className={styles.inProgressTasks}>
@@ -47,52 +89,19 @@ const LayoutColumn = observer(
           </div>
 
           <Modal
+            modalStore={modalStore}
             trigger={
-              <button className={styles.addButton}>
+              <button
+                onClick={() => modalStore.openModal(<CreateTask />)}
+                className={styles.addButton}
+              >
                 Add task
                 <Tooltip text="Add new task">
                   <HiPlusCircle />
                 </Tooltip>
               </button>
             }
-          >
-            <div>
-              <h3>Create a new task</h3>
-              <form
-                onSubmit={createTaskForm.onSubmit}
-                className={styles.taskForm}
-              >
-                <input {...createTaskForm.$("type").bind()} />
-
-                <input {...createTaskForm.$("taskTitle").bind()} />
-                {createTaskForm.$("taskTitle").error && (
-                  <p className={styles.formError}>
-                    {createTaskForm.$("taskTitle").error}
-                  </p>
-                )}
-                <input {...createTaskForm.$("taskDescription").bind()} />
-                {createTaskForm.$("taskDescription").error && (
-                  <p className={styles.formError}>
-                    {createTaskForm.$("taskDescription").error}
-                  </p>
-                )}
-                <select {...createTaskForm.$("taskPriority").bind()}>
-                  <option value="">Select Priority</option>
-                  {createTaskForm.$("taskPriority").options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                {createTaskForm.$("taskPriority").error && (
-                  <p className={styles.formError}>
-                    {createTaskForm.$("taskPriority").error}
-                  </p>
-                )}
-                <button className={styles.submitButton}>Add</button>
-              </form>
-            </div>
-          </Modal>
+          />
         </div>
 
         <ul className={styles.allTaskList}>

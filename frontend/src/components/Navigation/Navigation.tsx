@@ -3,8 +3,53 @@ import styles from "./navigation.module.css";
 // import Timer from "../Timer/Timer";
 import { PiKanban } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import Modal from "../Modal/Modal";
+import { CreateBoardForm } from "./CreateBoardForm";
+import { useStoreProvider } from "../../stores/StoreProvider";
+import { useMemo } from "react";
+import { observer } from "mobx-react";
+import { modalStore } from "../../stores/modalStore";
 
-const Navigation = () => {
+const Navigation = observer(() => {
+  const rootStore = useStoreProvider();
+
+  const createBoardForm = useMemo(
+    () => new CreateBoardForm(rootStore),
+    [rootStore]
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    createBoardForm.submit();
+  };
+
+  const BoardFormComponent = observer(() => (
+    <div>
+      <form onSubmit={handleSubmit} className={styles.addBoardForm}>
+        <div>
+          <input
+            {...createBoardForm.$("boardName").bind()}
+            placeholder="Enter board name"
+          />
+          {createBoardForm.$("boardName").error && (
+            <p
+              style={{
+                color: "var(--error-color)",
+                fontSize: "1.1rem",
+                textAlign: "center",
+              }}
+            >
+              {createBoardForm.$("boardName").error}
+            </p>
+          )}
+        </div>
+        <button type="submit" className={styles.submit}>
+          Save
+        </button>
+      </form>
+    </div>
+  ));
+
   return (
     <nav className={styles.navigation}>
       <ul className={styles.nav}>
@@ -13,9 +58,20 @@ const Navigation = () => {
             <PiKanban />
           </Link>
         </li>
+
         <li className={styles.navItem}>
-          <HiPlusCircle />
-          Create board
+          <Modal
+            modalStore={modalStore}
+            triggerClassName={styles.navItem}
+            trigger={
+              <span
+                onClick={() => modalStore.openModal(<BoardFormComponent />)}
+              >
+                <HiPlusCircle />
+                Create board
+              </span>
+            }
+          />
         </li>
         <li>
           <Link to="/create-board" className={styles.navItem}>
@@ -44,6 +100,6 @@ const Navigation = () => {
       </div> */}
     </nav>
   );
-};
+});
 
 export default Navigation;

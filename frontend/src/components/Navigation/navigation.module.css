@@ -76,3 +76,18 @@
   justify-content: center;
   margin-bottom: 1rem;
 }
+
+.submit {
+  background-color: var(--primary-color);
+  padding: 0.5rem 1.2rem;
+  border-radius: 15px;
+  width: 4rem;
+  margin: 0 auto;
+}
+
+.addBoardForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
