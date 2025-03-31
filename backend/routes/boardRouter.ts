@@ -1,17 +1,16 @@
 import { Router } from "express";
+import {
+  addNewBoard,
+  deleteBoard,
+  getAllBoards,
+} from "../controllers/boardsController";
 
 const boardRouter = Router();
 
-boardRouter.get("/all", (req, res) => {
-  return res.status(200).json({ data: "All boards" });
-});
+boardRouter.get("/all", getAllBoards);
 
-boardRouter.post("/add", (req, res) => {
-  return res.status(201).json({ data: "Board added" });
-});
+boardRouter.post("/add", addNewBoard);
 
-boardRouter.delete("/delete/:id", (req, res) => {
-  return res.status(201).json({ data: "Board deleted" });
-});
+boardRouter.delete("/delete/:id", deleteBoard);
 
 export { boardRouter };

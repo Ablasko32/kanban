@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import { boardRouter } from "./routes/boardRouter";
 import "./config/config";
+import "./config/db";
+import { errorMiddleware } from "./middleware/errorHandler";
 
 const DEFAULT_PORT: number = 3000;
 
@@ -16,7 +18,10 @@ app.get("/", (req, res) => {
 });
 
 // ROUTES
-app.use("/board", boardRouter);
+app.use("/boards", boardRouter);
+
+// Error middleware
+app.use(errorMiddleware);
 
 app.listen(DEFAULT_PORT, () => {
   console.log("Server is running on port:" + DEFAULT_PORT);

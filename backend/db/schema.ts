@@ -1,0 +1,43 @@
+import { sql } from "drizzle-orm";
+import {
+  integer,
+  pgTable,
+  varchar,
+  pgEnum,
+  timestamp,
+  index,
+} from "drizzle-orm/pg-core";
+
+/* All project boards table */
+export const boardsTable = pgTable("boards", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  boardName: varchar("board_name", { length: 100 }).notNull(),
+  dateCreated: timestamp("date_created")
+    .notNull()
+    .default(sql`NOW()`),
+});
+
+/* Task enums */
+
+export const statusEnum = pgEnum("status", ["open", "done", "progress"]);
+export const priorityEnum = pgEnum("priority", ["low", "med", "high"]);
+
+/* Containts all tasks linked to boardsTable  */
+export const tasksTable = pgTable(
+  "tasks",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    name: varchar({ length: 100 }).notNull(),
+    description: varchar({ length: 400 }),
+    dateCreated: timestamp("date_created")
+      .notNull()
+      .default(sql`NOW()`),
+    dueDate: timestamp("due_date"),
+    priority: priorityEnum().notNull().default("low"),
+    status: statusEnum().notNull().default("open"),
+    boardId: integer("board_id").references(() => boardsTable.id, {
+      onDelete: "cascade",
+    }),
+  },
+  (table) => [index("board_id_idx").on(table.boardId)]
+);
