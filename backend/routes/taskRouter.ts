@@ -5,7 +5,9 @@ import {
   getAllTasksForBoard,
   getTaskById,
   updateTask,
+  uploadFileForTask,
 } from "../controllers/tasksController";
+import { upload } from "../config/multer";
 
 const taskRouter = Router();
 
@@ -18,5 +20,8 @@ taskRouter.post("/add", addNewTask);
 taskRouter.put("/update/:id", updateTask);
 
 taskRouter.delete("/delete/:id", deleteTaskByID);
+
+// task file upload
+taskRouter.post("/upload-file", upload.single("file"), uploadFileForTask);
 
 export { taskRouter };

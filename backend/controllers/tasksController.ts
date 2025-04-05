@@ -108,3 +108,12 @@ export const deleteTaskByID = async (
     next(err);
   }
 };
+
+// File upload
+export const uploadFileForTask = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.send(`File ${req.file?.originalname} uploaded successfully!`);
+};

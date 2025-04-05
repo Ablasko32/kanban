@@ -5,6 +5,7 @@ import "./config/config";
 import "./config/db";
 import { errorMiddleware } from "./middleware/errorHandler";
 import { taskRouter } from "./routes/taskRouter";
+import multer from "multer";
 
 const DEFAULT_PORT: number = 3000;
 
