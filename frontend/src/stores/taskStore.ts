@@ -86,4 +86,10 @@ export class TaskStore {
     await this.apiClient.post("tasks/add", task);
     await this.fetchAllTasksForBoardId(task.boardId);
   }
+
+  @action.bound
+  async deleteTaskById(id: string, boardId: string) {
+    await this.apiClient.delete("tasks/delete", Number(id));
+    await this.fetchAllTasksForBoardId(boardId);
+  }
 }

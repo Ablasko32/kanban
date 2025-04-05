@@ -90,3 +90,21 @@ export const getTaskById = async (
     next(err);
   }
 };
+
+export const deleteTaskByID = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  try {
+    const data = await db
+      .delete(tasksTable)
+      .where(eq(tasksTable.id, Number(id)))
+      .returning();
+    res.status(200).json({ data: data });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};

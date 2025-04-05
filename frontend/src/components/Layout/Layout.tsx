@@ -4,6 +4,8 @@ import { useStoreProvider } from "../../stores/StoreProvider";
 import { useDrop } from "react-dnd";
 import { TaskStatus } from "../../stores/taskStore";
 import LayoutColumn from "../LayoutColumn/LayoutColumn";
+import { HiOutlineTrash } from "react-icons/hi";
+import Tooltip from "../Tooltip/Tooltip";
 
 const Layout = observer(({ id }: { id: string }) => {
   const rootStore = useStoreProvider();
@@ -14,6 +16,16 @@ const Layout = observer(({ id }: { id: string }) => {
     boardId: string = id
   ) => {
     rootStore.taskStore.changeTaskStatus(taskId, newStatus, boardId);
+  };
+
+  const handleDelete = (taskId: string, boardId: string = id) => {
+    try {
+      rootStore.taskStore.deleteTaskById(taskId, boardId);
+      rootStore.notificationStore.sendSucess("Task deleted");
+    } catch (err) {
+      console.error(err);
+      rootStore.notificationStore.sendError("Error deleting task");
+    }
   };
 
   // DROP HANDLERS FOR EACH COL
@@ -30,6 +42,11 @@ const Layout = observer(({ id }: { id: string }) => {
   const [{}, doneDropRef] = useDrop(() => ({
     accept: "TASK",
     drop: (item: { id: string }) => handleDrop(item.id, "done"),
+  }));
+
+  const [{}, deleteDropRef] = useDrop(() => ({
+    accept: "TASK",
+    drop: (item: { id: string }) => handleDelete(item.id),
   }));
 
   return (
@@ -62,6 +79,12 @@ const Layout = observer(({ id }: { id: string }) => {
         reference={doneDropRef}
         rootStore={rootStore}
       />
+
+      <div ref={deleteDropRef} className={styles.delete}>
+        <Tooltip text="Delete task by drag&drop">
+          <HiOutlineTrash />
+        </Tooltip>
+      </div>
     </div>
   );
 });
