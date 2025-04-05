@@ -5,11 +5,15 @@ import { useDrop } from "react-dnd";
 import { TaskStatus } from "../../stores/taskStore";
 import LayoutColumn from "../LayoutColumn/LayoutColumn";
 
-const Layout = observer(() => {
+const Layout = observer(({ id }: { id: string }) => {
   const rootStore = useStoreProvider();
 
-  const handleDrop = (taskId: string, newStatus: TaskStatus) => {
-    rootStore.taskStore.changeTaskStatus(taskId, newStatus);
+  const handleDrop = (
+    taskId: string,
+    newStatus: TaskStatus,
+    boardId: string = id
+  ) => {
+    rootStore.taskStore.changeTaskStatus(taskId, newStatus, boardId);
   };
 
   // DROP HANDLERS FOR EACH COL
@@ -33,6 +37,7 @@ const Layout = observer(() => {
       {/* Open column */}
 
       <LayoutColumn
+        id={id}
         title="Open"
         type="open"
         reference={openDropRef}
@@ -42,6 +47,7 @@ const Layout = observer(() => {
       {/* In progress column */}
 
       <LayoutColumn
+        id={id}
         title="Progress"
         type="progress"
         reference={progressDropRef}
@@ -50,6 +56,7 @@ const Layout = observer(() => {
       {/* Done column */}
 
       <LayoutColumn
+        id={id}
         title="Done"
         type="done"
         reference={doneDropRef}

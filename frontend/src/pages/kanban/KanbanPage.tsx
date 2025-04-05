@@ -20,7 +20,7 @@ const KanbanPage = observer(() => {
     <>
       <Header id={id as string} />
       <DndProvider backend={HTML5Backend}>
-        <Layout />
+        <Layout id={id as string} />
       </DndProvider>
     </>
   );

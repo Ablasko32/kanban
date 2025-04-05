@@ -3,30 +3,23 @@ import TaskDetailsBody from "../../components/TaskDetailsBody/TaskDetailsBody";
 import TaskDetailsHeader from "../../components/TaskDetailsHeader/TaskDetailsHeader";
 import TaskDocumentsList from "../../components/TaskDocumentsList/TaskDocumentsList";
 import UploadDocumentsBox from "../../components/UploadDocumentsBox/UploadDocumentsBox";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useStoreProvider } from "../../stores/StoreProvider";
-import { toJS } from "mobx";
-import { TaskData } from "../../stores/taskStore";
+import { observer } from "mobx-react";
 
-const TaskDetails = () => {
+const TaskDetails = observer(() => {
   const { id } = useParams();
 
   const rootStore = useStoreProvider();
 
-  const [taskData, setTaskData] = useState<TaskData | null>(null);
-
   useEffect(() => {
-    if (!id) return;
-    const selectedTask = rootStore.taskStore.retriveTaskByID(id);
-    setTaskData(toJS(selectedTask));
+    rootStore.taskStore.retriveTaskByID(id as string);
   }, [id, rootStore.taskStore]);
-
-  if (!taskData) return null;
 
   return (
     <div style={{ padding: "0 2rem" }}>
-      <TaskDetailsHeader taskData={taskData} />
-      <TaskDetailsBody taskData={taskData} />
+      <TaskDetailsHeader taskData={rootStore.taskStore.openTask} />
+      <TaskDetailsBody taskData={rootStore.taskStore.openTask} />
 
       <div
         style={{
@@ -40,6 +33,6 @@ const TaskDetails = () => {
       </div>
     </div>
   );
-};
+});
 
 export default TaskDetails;

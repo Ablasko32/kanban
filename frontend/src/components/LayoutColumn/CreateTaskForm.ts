@@ -38,7 +38,16 @@ export class CreateTaskForm extends FormBase {
           rules: "required",
         },
         {
+          name: "dueDate",
+          type: "date",
+          placeholder: "YYYY_MM_DD",
+        },
+        {
           name: "type",
+          type: "hidden",
+        },
+        {
+          name: "boardId",
           type: "hidden",
         },
       ],
@@ -54,20 +63,24 @@ export class CreateTaskForm extends FormBase {
       onSuccess(form) {
         const formValues = form.values();
         const newTask = {
-          id: crypto.randomUUID(),
           name: formValues.taskTitle,
           description: formValues.taskDescription,
           priority: formValues.taskPriority,
-          createdAt: new Date(),
           status: formValues.type,
+          boardId: formValues.boardId,
+          dueDate: new Date(formValues.dueDate),
         };
-
-        self.rootStore.taskStore.handleAddTask(newTask);
-        form.clear();
-        form.reset();
-        self.rootStore.notificationStore.sendSucess(
-          "Task was saved sucesfully."
-        );
+        try {
+          self.rootStore.taskStore.addNewTaskToDb(newTask);
+          form.clear();
+          form.reset();
+          self.rootStore.notificationStore.sendSucess(
+            "Task was saved sucesfully."
+          );
+        } catch (err) {
+          console.error(err);
+          self.rootStore.notificationStore.sendError("Error saving task.");
+        }
       },
       /*
         Error Validation Hook

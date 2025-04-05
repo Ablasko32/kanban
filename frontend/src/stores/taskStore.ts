@@ -4,7 +4,6 @@ import {
   makeObservable,
   observable,
   runInAction,
-  toJS,
 } from "mobx";
 import { ApiClient } from "../core/ApiClient";
 
@@ -12,47 +11,21 @@ export type TaskStatus = "open" | "progress" | "done";
 export type TaskPriority = "low" | "med" | "high";
 
 export interface TaskData {
-  id: string;
+  id?: number;
   name: string;
   description: string;
   priority: TaskPriority;
   status: TaskStatus;
-  createdAt: Date;
+  dateCreated: Date;
+  boardId: string;
+  dueDate?: Date;
+  boardName?: string;
 }
 
-const placeholderData: TaskData[] = [
-  {
-    id: crypto.randomUUID(),
-    name: "Creating list style dropdown",
-    description:
-      "Creating list style dropdown for list style dropdown etch etch etch i need to create drowpdpwn ",
-    priority: "low",
-    status: "open",
-    createdAt: new Date(),
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "Creating list style dropdown",
-    description:
-      "Creating list style dropdown for list style dropdown etch etch etch i need to create drowpdpwn ",
-    priority: "med",
-    status: "progress",
-    createdAt: new Date(),
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "Creating list style dropdown",
-    description:
-      "Creating list style dropdown for list style dropdown etch etch etch i need to create drowpdpwn ",
-    priority: "high",
-    status: "done",
-    createdAt: new Date(),
-  },
-];
-
 export class TaskStore {
-  @observable tasks: TaskData[] = placeholderData;
+  @observable tasks: TaskData[] = [];
   @observable isFetching = false;
+  @observable openTask: TaskData | {} = {};
   apiClient = new ApiClient();
 
   constructor() {
@@ -75,22 +48,25 @@ export class TaskStore {
   }
 
   @action
-  changeTaskStatus(taskId: string, taskStatus: TaskStatus) {
-    const targetTask = this.tasks.find((task) => task.id === taskId);
-    if (!targetTask) return;
-    targetTask.status = taskStatus;
-  }
+  async changeTaskStatus(
+    taskId: string,
+    taskStatus: TaskStatus,
+    boardId: string
+  ) {
+    const body = {
+      status: taskStatus,
+    };
 
-  @action
-  handleAddTask(taskData: TaskData) {
-    if (!taskData) return;
-    // console.log(taskData);
-    this.tasks.push(taskData);
+    await this.apiClient.put("tasks/update", taskId, body);
+    await this.fetchAllTasksForBoardId(boardId);
   }
 
   @action.bound
-  retriveTaskByID(id: string) {
-    return this.tasks.filter((task) => task.id === id)[0];
+  async retriveTaskByID(id: string) {
+    const data = await this.apiClient.get(`tasks/${id}`);
+    runInAction(() => {
+      this.openTask = data.data[0];
+    });
   }
 
   @action.bound
@@ -103,5 +79,11 @@ export class TaskStore {
       this.tasks = data.data;
       this.isFetching = false;
     });
+  }
+
+  @action.bound
+  async addNewTaskToDb(task: TaskData) {
+    await this.apiClient.post("tasks/add", task);
+    await this.fetchAllTasksForBoardId(task.boardId);
   }
 }

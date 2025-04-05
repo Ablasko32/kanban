@@ -4,13 +4,19 @@ import { HiOutlineClock } from "react-icons/hi";
 import { observer } from "mobx-react";
 import { useEffect } from "react";
 import { useStoreProvider } from "../../stores/StoreProvider";
+import { useNavigate } from "react-router-dom";
 
 const BoardIndicator = observer(({ id }: { id: string }) => {
   const rootStore = useStoreProvider();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     rootStore.boardStore.fetchBoardForBoardId(id);
   }, [id, rootStore.boardStore]);
+
+  // check here and navigate away if id is not good
+  if (!rootStore.boardStore.openBoard) navigate("/");
 
   return (
     <div className={styles.boardIndicatorContainer}>

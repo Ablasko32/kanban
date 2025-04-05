@@ -65,18 +65,24 @@ const TaskCard = ({ task }: { task: TaskData }) => {
               Started
             </label>
             <p id="staredDate" className={styles.dateStarted}>
-              <HiOutlineCalendar /> {task.createdAt.toLocaleDateString()}
+              <HiOutlineCalendar />
+              {new Date(task.dateCreated).toLocaleDateString()}
             </p>
           </div>
         </Tooltip>
         <Tooltip text="Date when task is due">
           <div>
-            <label className={styles.dateLabel} htmlFor="staredDate">
-              Due
-            </label>
-            <p id="staredDate" className={styles.dateStarted}>
-              <HiOutlineCalendar /> {task.createdAt.toLocaleDateString()}
-            </p>
+            {task.dueDate && (
+              <>
+                <label className={styles.dateLabel} htmlFor="staredDate">
+                  Due
+                </label>
+                <p id="staredDate" className={styles.dateStarted}>
+                  <HiOutlineCalendar />
+                  {new Date(task.dueDate).toLocaleDateString()}
+                </p>
+              </>
+            )}
           </div>
         </Tooltip>
       </div>

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import { TaskData } from "../../stores/taskStore";
 import TaskCard from "../TaskCard/TaskCard";
 import Tooltip from "../Tooltip/Tooltip";
@@ -18,11 +18,13 @@ const LayoutColumn = observer(
     rootStore,
     type,
     title,
+    id,
   }: {
     reference: React.RefObject<HTMLDivElement>;
     rootStore: RootStore;
     type: RenderType;
     title: string;
+    id: string;
   }) => {
     const RenderTypes: Record<RenderType, any> = {
       progress: rootStore.taskStore.allProgressTasks,
@@ -38,6 +40,7 @@ const LayoutColumn = observer(
     const createTaskForm = formInstance;
 
     createTaskForm.$("type").set(type);
+    createTaskForm.$("boardId").set(id);
 
     const CreateTask = observer(() => {
       return (
@@ -45,6 +48,7 @@ const LayoutColumn = observer(
           <h3>Create a new task</h3>
           <form onSubmit={createTaskForm.onSubmit} className={styles.taskForm}>
             <input {...createTaskForm.$("type").bind()} />
+            <input {...createTaskForm.$("boardId").bind()} />
 
             <input {...createTaskForm.$("taskTitle").bind()} />
             {createTaskForm.$("taskTitle").error && (
@@ -69,6 +73,13 @@ const LayoutColumn = observer(
             {createTaskForm.$("taskPriority").error && (
               <p className={styles.formError}>
                 {createTaskForm.$("taskPriority").error}
+              </p>
+            )}
+
+            <input {...createTaskForm.$("dueDate").bind()} />
+            {createTaskForm.$("dueDate").error && (
+              <p className={styles.formError}>
+                {createTaskForm.$("dueDate").error}
               </p>
             )}
             <button className={styles.submitButton}>Add</button>

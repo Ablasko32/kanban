@@ -16,21 +16,23 @@ const TaskDetailsHeader = ({ taskData }: { taskData: TaskData }) => {
         </button>
         <div className={`${styles.indicatorItem} ${styles.boardName}`}>
           <PiKanban />
-          Test project
+          {taskData.boardName}
         </div>
         <Tooltip text="Date when task was created">
           <div className={`${styles.indicatorItem} ${styles.taskCreatedAt}`}>
             <HiOutlineClock />
-            {taskData.createdAt.toLocaleDateString()}
+            {new Date(taskData.dateCreated).toLocaleDateString()}
           </div>
         </Tooltip>
-        <Tooltip text="Date when task is due">
-          <div className={`${styles.indicatorItem} ${styles.taskDueDate}`}>
-            <HiOutlineClock />
-            {taskData.createdAt.toLocaleDateString()}
-            {/* this is to change after we have this */}
-          </div>
-        </Tooltip>
+        {taskData.dueDate && (
+          <Tooltip text="Date when task is due">
+            <div className={`${styles.indicatorItem} ${styles.taskDueDate}`}>
+              <HiOutlineClock />
+              {new Date(taskData.dueDate).toLocaleDateString()}
+              {/* this is to change after we have this */}
+            </div>
+          </Tooltip>
+        )}
       </div>
     </header>
   );
