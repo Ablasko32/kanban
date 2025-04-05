@@ -1,7 +1,10 @@
+import { ApiClient } from "../../core/ApiClient";
 import { FormBase } from "../../core/FormBase";
 import { RootStore } from "../../stores/rootStore";
 
 export class CreateBoardForm extends FormBase {
+  apiClient = new ApiClient();
+
   constructor(rootStore: RootStore) {
     super(rootStore);
   }
@@ -24,11 +27,20 @@ export class CreateBoardForm extends FormBase {
     const self = this;
     return {
       onSuccess(form) {
-        alert("Form is good");
-        form.clear();
+        const { boardName } = form.values();
+        try {
+          self.rootStore.boardStore.addBoard({ name: boardName });
+          form.clear();
+          form.reset();
+          self.rootStore.boardStore.fetchAllBoards();
+          self.rootStore.notificationStore.sendSucess("Board created");
+        } catch (err) {
+          console.error(err);
+          self.rootStore.notificationStore.sendError("Failed to create board");
+        }
       },
       onError(form) {
-        alert("Form has errors!");
+        self.rootStore.notificationStore.sendSucess("Form has errors");
       },
     };
   }

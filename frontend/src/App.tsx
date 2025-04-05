@@ -20,8 +20,8 @@ function App() {
           <Navigation />
           <div>
             <Routes>
-              <Route path="/" element={<Navigate to="/board" />} />
-              <Route path="/board" element={<KanbanPage />} />
+              <Route path="/" element={<Navigate to="/create-board" />} />
+              <Route path="/board/:id" element={<KanbanPage />} />
               <Route path="/create-board" element={<MyBoards />} />
               <Route path="/task/:id" element={<TaskDetails />} />
             </Routes>

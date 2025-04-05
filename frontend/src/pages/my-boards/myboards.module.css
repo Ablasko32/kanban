@@ -13,3 +13,10 @@
   padding: 1.2rem 0;
   padding-left: 4rem;
 }
+
+.emptyState {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 4rem;
+  opacity: 0.7;
+}
