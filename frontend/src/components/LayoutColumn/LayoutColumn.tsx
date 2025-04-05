@@ -94,7 +94,7 @@ const LayoutColumn = observer(
           <div className={styles.title}>
             {" "}
             <h2>{title}</h2>
-            <Tooltip text="Tasks currently in progress">
+            <Tooltip text={`Tasks that have status: ${title}`}>
               <HiOutlineInformationCircle />
             </Tooltip>
           </div>
