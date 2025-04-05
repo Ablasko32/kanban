@@ -1,4 +1,12 @@
-import { action, computed, makeObservable, observable, toJS } from "mobx";
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+  toJS,
+} from "mobx";
+import { ApiClient } from "../core/ApiClient";
 
 export type TaskStatus = "open" | "progress" | "done";
 export type TaskPriority = "low" | "med" | "high";
@@ -44,6 +52,8 @@ const placeholderData: TaskData[] = [
 
 export class TaskStore {
   @observable tasks: TaskData[] = placeholderData;
+  @observable isFetching = false;
+  apiClient = new ApiClient();
 
   constructor() {
     makeObservable(this);
@@ -81,5 +91,17 @@ export class TaskStore {
   @action.bound
   retriveTaskByID(id: string) {
     return this.tasks.filter((task) => task.id === id)[0];
+  }
+
+  @action.bound
+  async fetchAllTasksForBoardId(id: string) {
+    runInAction(() => {
+      this.isFetching = true;
+    });
+    const data = await this.apiClient.get(`tasks/all/${id}`);
+    runInAction(() => {
+      this.tasks = data.data;
+      this.isFetching = false;
+    });
   }
 }

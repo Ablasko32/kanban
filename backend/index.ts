@@ -4,6 +4,7 @@ import { boardRouter } from "./routes/boardRouter";
 import "./config/config";
 import "./config/db";
 import { errorMiddleware } from "./middleware/errorHandler";
+import { taskRouter } from "./routes/taskRouter";
 
 const DEFAULT_PORT: number = 3000;
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 
 // ROUTES
 app.use("/boards", boardRouter);
+app.use("/tasks", taskRouter);
 
 // Error middleware
 app.use(errorMiddleware);

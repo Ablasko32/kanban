@@ -1,11 +1,10 @@
 import BoardIndicator from "../BoardIndicator/BoardIndicator";
 import styles from "./header.module.css";
 
-const Header = () => {
+const Header = ({ id }: { id: string }) => {
   return (
     <header className={styles.header}>
-      {/* <h1 className={styles.mainTitle}>Track your tasks</h1> */}
-      <BoardIndicator />
+      <BoardIndicator id={id} />
     </header>
   );
 };

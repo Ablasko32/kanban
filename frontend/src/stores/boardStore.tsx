@@ -5,12 +5,14 @@ export class BoardStore {
   allBoards = [];
   apiClient = new ApiClient();
   isFetching = false;
+  openBoard: Record<any, any> = {};
 
   constructor() {
     makeObservable(this, {
       allBoards: observable,
       isFetching: observable,
       fetchAllBoards: action,
+      openBoard: observable,
     });
   }
 
@@ -20,7 +22,6 @@ export class BoardStore {
     });
 
     const boards = await this.apiClient.get("boards/all");
-    console.log(boards);
 
     runInAction(() => {
       this.allBoards = boards.data;
@@ -45,10 +46,17 @@ export class BoardStore {
       this.isFetching = true;
     });
 
-    this.apiClient.post("boards/add", body);
+    await this.apiClient.post("boards/add", body);
     await this.fetchAllBoards();
     runInAction(() => {
       this.isFetching = false;
+    });
+  }
+
+  async fetchBoardForBoardId(id: string) {
+    const data = await this.apiClient.get(`boards/${id}`);
+    runInAction(() => {
+      this.openBoard = data.data[0];
     });
   }
 }

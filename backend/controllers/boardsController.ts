@@ -21,17 +21,38 @@ export const getAllBoards = async (
   }
 };
 
+// return board by board id
+export const getBoardById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  try {
+    if (!id) throw new ApiError("Param: id, is required", 400);
+    const data = await db
+      .select()
+      .from(boardsTable)
+      .where(eq(boardsTable.id, Number(id)));
+
+    return res.status(200).json({ data: data });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
 export const addNewBoard = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<Response<{ data: BoardType[] }> | void> => {
   const { name } = req.body;
-  if (!name) {
-    throw new ApiError("Body data: name ,must be provided", 400);
-  }
 
   try {
+    if (!name) {
+      throw new ApiError("Body data: name ,must be provided", 400);
+    }
     const createdBoard = await db
       .insert(boardsTable)
       .values({ boardName: name })
@@ -49,11 +70,10 @@ export const deleteBoard = async (
 ): Promise<Response<{ message: string }> | void> => {
   const { id } = req.params;
 
-  if (!id) {
-    throw new ApiError("Parametar: id ,must be provided", 400);
-  }
-
   try {
+    if (!id) {
+      throw new ApiError("Parametar: id ,must be provided", 400);
+    }
     await db.delete(boardsTable).where(eq(boardsTable.id, Number(id)));
     return res.status(200).json({ message: "Deleted" });
   } catch (err) {
