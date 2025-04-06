@@ -58,4 +58,28 @@ export class ApiClient {
       console.log(err);
     }
   };
+
+  uploadFile = async (
+    subRoute: string,
+    file: File,
+    extraFields?: Record<any, any>
+  ) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    if (extraFields) {
+      for (const key in extraFields) {
+        formData.append(key, extraFields[key]);
+      }
+    }
+
+    const res = await fetch(`${this._baseUrl}/${subRoute}`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Error uploading file");
+    const data = await res.json();
+    return data;
+  };
 }

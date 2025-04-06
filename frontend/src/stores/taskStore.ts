@@ -117,4 +117,10 @@ export class TaskStore {
     await this.apiClient.delete("tasks/upload-file", Number(fileId));
     await this.getFilesForTaskId(taskId);
   }
+
+  @action.bound
+  async uploadFileForTask(file: File, taskId: string) {
+    await this.apiClient.uploadFile("tasks/upload-file", file, { taskId });
+    await this.getFilesForTaskId(taskId);
+  }
 }
