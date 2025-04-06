@@ -1,5 +1,17 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from "mobx";
 import { ApiClient } from "../core/ApiClient";
+
+interface TaskTimers {
+  id?: number;
+  startTime: Date;
+  endTime: Date;
+}
 
 export class TimerStore {
   @observable isRunning: boolean = false;
@@ -7,6 +19,8 @@ export class TimerStore {
   @observable activeTask: string = "";
   interval: NodeJS.Timeout | null = null;
   @observable currentTimer: string = "";
+  @observable currentTaskTimers: TaskTimers[] = [];
+  @observable isFetchingTimers = false;
 
   apiClient = new ApiClient();
 
@@ -59,5 +73,29 @@ export class TimerStore {
   @action.bound
   setActiveTask(id: string) {
     this.activeTask = id;
+  }
+
+  @action.bound
+  async getAllTimersForTaskId(taskId: string) {
+    runInAction(() => {
+      this.currentTaskTimers = [];
+      this.isFetchingTimers = true;
+    });
+    const data = await this.apiClient.get(`timer/task/${taskId}`);
+    runInAction(() => {
+      this.currentTaskTimers = data.data;
+      this.isFetchingTimers = false;
+    });
+  }
+
+  @computed
+  get totalTimeForTaskComputed() {
+    return this.currentTaskTimers.reduce((total, timer) => {
+      const startTime = new Date(timer.startTime).getTime();
+      const endTime = new Date(timer.endTime).getTime();
+
+      const duration = (endTime - startTime) / 1000;
+      return total + duration;
+    }, 0);
   }
 }

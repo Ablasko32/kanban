@@ -1,6 +1,5 @@
 import { HiOutlineHeart, HiPlusCircle, HiViewGrid } from "react-icons/hi";
 import styles from "./navigation.module.css";
-// import Timer from "../Timer/Timer";
 import { PiKanban } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
@@ -96,7 +95,6 @@ const Navigation = observer(() => {
       </section> */}
 
       <div className={styles.timerContainer}>
-        <p>Track your time</p>
         <Timer />
       </div>
     </nav>

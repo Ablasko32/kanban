@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import { observer } from "mobx-react";
 import Spinner from "../../components/Spinner/Spinner";
+import TaskTimerList from "../../components/TaskTimerList/TaskTimerList";
 
 const TaskDetails = observer(() => {
   const { id } = useParams();
@@ -16,7 +17,8 @@ const TaskDetails = observer(() => {
   useEffect(() => {
     rootStore.taskStore.retriveTaskByID(id as string);
     rootStore.taskStore.getFilesForTaskId(id as string);
-  }, [id, rootStore.taskStore]);
+    rootStore.timerStore.getAllTimersForTaskId(id as string);
+  }, [id, rootStore.taskStore, rootStore.timerStore]);
 
   if (rootStore.taskStore.isFetching) return <Spinner />;
 
@@ -35,6 +37,7 @@ const TaskDetails = observer(() => {
         <UploadDocumentsBox />
         <TaskDocumentsList />
       </div>
+      <TaskTimerList />
     </div>
   );
 });

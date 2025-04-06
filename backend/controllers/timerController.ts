@@ -13,7 +13,10 @@ export const getAllTimersForTask = async (
     const { id: taskId } = req.params;
     if (!taskId) throw new ApiError("Parameter: id, is required", 400);
 
-    const data = await db.select().from(taskTimeTable);
+    const data = await db
+      .select()
+      .from(taskTimeTable)
+      .where(eq(taskTimeTable.taskId, Number(taskId)));
     return res.status(200).json({ data: data });
   } catch (err) {
     console.error(err);

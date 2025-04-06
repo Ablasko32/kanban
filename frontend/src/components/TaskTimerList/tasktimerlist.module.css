@@ -1,0 +1,21 @@
+.timerItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.timerList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 14rem;
+  overflow-y: scroll;
+  max-width: 60rem;
+}
+
+.container {
+  margin-top: 4rem;
+}
