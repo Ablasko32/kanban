@@ -61,3 +61,13 @@ export const taskFilesTable = pgTable(
   },
   (table) => [index("task_id_idx").on(table.taskId)]
 );
+
+// Collects time pers task
+export const taskTimeTable = pgTable("taskTime", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  startTime: timestamp("start_time").notNull(),
+  endTime: timestamp("end_time"),
+  taskId: integer("task_id").references(() => tasksTable.id, {
+    onDelete: "cascade",
+  }),
+});

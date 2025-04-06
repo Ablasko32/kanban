@@ -9,6 +9,7 @@ import { useStoreProvider } from "../../stores/StoreProvider";
 import { useMemo } from "react";
 import { observer } from "mobx-react";
 import { modalStore } from "../../stores/modalStore";
+import Timer from "../Timer/Timer";
 
 const Navigation = observer(() => {
   const rootStore = useStoreProvider();
@@ -94,10 +95,10 @@ const Navigation = observer(() => {
         </div>
       </section> */}
 
-      {/* <div className={styles.timerContainer}>
+      <div className={styles.timerContainer}>
         <p>Track your time</p>
         <Timer />
-      </div> */}
+      </div>
     </nav>
   );
 });

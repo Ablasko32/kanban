@@ -7,10 +7,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-// import KanbanPage from "./pages/kanban/KanbanPage";
-// import MyBoards from "./pages/my-boards/MyBoards";
 import { ToastContainer } from "react-toastify";
-// import TaskDetails from "./pages/task-details/TaskDetails";
 import React, { Suspense } from "react";
 import Spinner from "./components/Spinner/Spinner";
 
@@ -27,7 +24,6 @@ function App() {
         <StoreProvider>
           <div className={styles.mainLayout}>
             <Navigation />
-            {/* Suspense boundary */}
 
             <div>
               <Routes>
