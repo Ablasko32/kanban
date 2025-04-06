@@ -2,8 +2,10 @@ import { Router } from "express";
 import {
   addNewTask,
   deleteTaskByID,
+  deleteTaskFileById,
   getAllTasksForBoard,
   getTaskById,
+  getUploadedFilesForTask,
   updateTask,
   uploadFileForTask,
 } from "../controllers/tasksController";
@@ -23,5 +25,9 @@ taskRouter.delete("/delete/:id", deleteTaskByID);
 
 // task file upload
 taskRouter.post("/upload-file", upload.single("file"), uploadFileForTask);
+
+taskRouter.get("/upload-file/:id", getUploadedFilesForTask);
+
+taskRouter.delete("/upload-file/:id", deleteTaskFileById);
 
 export { taskRouter };

@@ -7,6 +7,7 @@ import {
   timestamp,
   index,
 } from "drizzle-orm/pg-core";
+import path from "path";
 
 /* All project boards table */
 export const boardsTable = pgTable("boards", {
@@ -40,4 +41,23 @@ export const tasksTable = pgTable(
     }),
   },
   (table) => [index("board_id_idx").on(table.boardId)]
+);
+
+// Serves as file metadata storage, each task can have asociated files
+export const taskFilesTable = pgTable(
+  "taskFiles",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    name: varchar({ length: 200 }).notNull(),
+    type: varchar({ length: 50 }),
+    size: integer(),
+    path: varchar({ length: 250 }).notNull(),
+    dateCreated: timestamp("date_created").default(sql`NOW()`),
+    taskId: integer("task_id")
+      .notNull()
+      .references(() => tasksTable.id, {
+        onDelete: "cascade",
+      }),
+  },
+  (table) => [index("task_id_idx").on(table.taskId)]
 );

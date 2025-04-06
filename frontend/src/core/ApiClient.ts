@@ -1,5 +1,5 @@
 export class ApiClient {
-  private _baseUrl = "http://localhost:3000";
+  private _baseUrl = import.meta.env.VITE_API_URL;
 
   get = async (subRoute: string) => {
     try {

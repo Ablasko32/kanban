@@ -22,10 +22,21 @@ export interface TaskData {
   boardName?: string;
 }
 
+export interface TaskFileData {
+  id?: number;
+  name: string;
+  dateCreated: Date;
+  type: string;
+  path: string;
+  size: number;
+  taskId: number;
+}
+
 export class TaskStore {
   @observable tasks: TaskData[] = [];
   @observable isFetching = false;
   @observable openTask: TaskData | {} = {};
+  @observable taskFileData: TaskFileData[] = [];
   apiClient = new ApiClient();
 
   constructor() {
@@ -91,5 +102,19 @@ export class TaskStore {
   async deleteTaskById(id: string, boardId: string) {
     await this.apiClient.delete("tasks/delete", Number(id));
     await this.fetchAllTasksForBoardId(boardId);
+  }
+
+  @action.bound
+  async getFilesForTaskId(id: string) {
+    const data = await this.apiClient.get(`tasks/upload-file/${id}`);
+    runInAction(() => {
+      this.taskFileData = data.data;
+    });
+  }
+
+  @action.bound
+  async deleteTaskFilesById(fileId: string, taskId: strig) {
+    await this.apiClient.delete("tasks/upload-file", Number(fileId));
+    await this.getFilesForTaskId(taskId);
   }
 }

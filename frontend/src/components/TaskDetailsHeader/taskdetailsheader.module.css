@@ -13,6 +13,7 @@
 .boardName {
   font-weight: 600;
   padding: 0 1rem;
+  text-transform: capitalize;
   border-right: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
 }
