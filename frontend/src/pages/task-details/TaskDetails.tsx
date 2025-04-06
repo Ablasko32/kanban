@@ -6,6 +6,7 @@ import UploadDocumentsBox from "../../components/UploadDocumentsBox/UploadDocume
 import { useEffect } from "react";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import { observer } from "mobx-react";
+import Spinner from "../../components/Spinner/Spinner";
 
 const TaskDetails = observer(() => {
   const { id } = useParams();
@@ -14,7 +15,10 @@ const TaskDetails = observer(() => {
 
   useEffect(() => {
     rootStore.taskStore.retriveTaskByID(id as string);
+    rootStore.taskStore.getFilesForTaskId(id as string);
   }, [id, rootStore.taskStore]);
+
+  if (rootStore.taskStore.isFetching) return <Spinner />;
 
   return (
     <div style={{ padding: "0 2rem" }}>

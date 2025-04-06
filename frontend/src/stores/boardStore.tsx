@@ -54,9 +54,13 @@ export class BoardStore {
   }
 
   async fetchBoardForBoardId(id: string) {
+    runInAction(() => {
+      this.isFetching = true;
+    });
     const data = await this.apiClient.get(`boards/${id}`);
     runInAction(() => {
       this.openBoard = data.data[0];
+      this.isFetching = false;
     });
   }
 }

@@ -1,0 +1,33 @@
+.spinner {
+  height: 6rem;
+  width: 6rem;
+  border: 1rem solid rgba(0, 123, 255, 0.1);
+  border-top: 1rem solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.spinnerBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+}
+
+.spinnerTinyBox {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes spin {
+  0% {
+    rotate: 0;
+  }
+
+  100% {
+    rotate: 360deg;
+  }
+}

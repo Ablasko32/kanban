@@ -3,6 +3,7 @@ import BoardCard from "../../components/BoardCard/BoardCard";
 import styles from "./myboards.module.css";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import { observer } from "mobx-react";
+import Spinner from "../../components/Spinner/Spinner";
 
 const CreateBoard = observer(() => {
   const rootStore = useStoreProvider();
@@ -11,7 +12,7 @@ const CreateBoard = observer(() => {
     rootStore.boardStore.fetchAllBoards();
   }, [rootStore.boardStore]);
 
-  if (rootStore.boardStore.isFetching) return <div>Loading...</div>;
+  if (rootStore.boardStore.isFetching) return <Spinner />;
 
   return (
     <div>

@@ -37,6 +37,7 @@ export class TaskStore {
   @observable isFetching = false;
   @observable openTask: TaskData | {} = {};
   @observable taskFileData: TaskFileData[] = [];
+  @observable isFetchingFiles = false;
   apiClient = new ApiClient();
 
   constructor() {
@@ -74,9 +75,13 @@ export class TaskStore {
 
   @action.bound
   async retriveTaskByID(id: string) {
+    runInAction(() => {
+      this.isFetching = true;
+    });
     const data = await this.apiClient.get(`tasks/${id}`);
     runInAction(() => {
       this.openTask = data.data[0];
+      this.isFetching = false;
     });
   }
 
@@ -94,33 +99,61 @@ export class TaskStore {
 
   @action.bound
   async addNewTaskToDb(task: TaskData) {
+    runInAction(() => {
+      this.isFetching = true;
+    });
     await this.apiClient.post("tasks/add", task);
     await this.fetchAllTasksForBoardId(task.boardId);
+    runInAction(() => {
+      this.isFetching = false;
+    });
   }
 
   @action.bound
   async deleteTaskById(id: string, boardId: string) {
+    runInAction(() => {
+      this.isFetching = true;
+    });
     await this.apiClient.delete("tasks/delete", Number(id));
     await this.fetchAllTasksForBoardId(boardId);
+    runInAction(() => {
+      this.isFetching = false;
+    });
   }
 
   @action.bound
   async getFilesForTaskId(id: string) {
+    runInAction(() => {
+      this.isFetchingFiles = true;
+    });
     const data = await this.apiClient.get(`tasks/upload-file/${id}`);
     runInAction(() => {
       this.taskFileData = data.data;
+      this.isFetchingFiles = false;
     });
   }
 
   @action.bound
   async deleteTaskFilesById(fileId: string, taskId: strig) {
+    runInAction(() => {
+      this.isFetchingFiles = true;
+    });
     await this.apiClient.delete("tasks/upload-file", Number(fileId));
     await this.getFilesForTaskId(taskId);
+    runInAction(() => {
+      this.isFetchingFiles = false;
+    });
   }
 
   @action.bound
   async uploadFileForTask(file: File, taskId: string) {
+    runInAction(() => {
+      this.isFetchingFiles = true;
+    });
     await this.apiClient.uploadFile("tasks/upload-file", file, { taskId });
     await this.getFilesForTaskId(taskId);
+    runInAction(() => {
+      this.isFetchingFiles = false;
+    });
   }
 }

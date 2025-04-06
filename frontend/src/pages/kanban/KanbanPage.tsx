@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import { observer } from "mobx-react";
+import Spinner from "../../components/Spinner/Spinner";
 
 const KanbanPage = observer(() => {
   const { id } = useParams();
@@ -15,6 +16,8 @@ const KanbanPage = observer(() => {
   useEffect(() => {
     rootStore.taskStore.fetchAllTasksForBoardId(id as string);
   }, [rootStore.taskStore, id]);
+
+  if (rootStore.taskStore.isFetching) return <Spinner />;
 
   return (
     <>

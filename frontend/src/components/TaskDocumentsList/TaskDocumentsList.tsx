@@ -1,37 +1,37 @@
 import { HiOutlineCloudDownload, HiOutlineTrash } from "react-icons/hi";
 import styles from "./taskdocumentslist.module.css";
 import Tooltip from "../Tooltip/Tooltip";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import { observer } from "mobx-react";
 import { TaskFileData } from "../../stores/taskStore";
 import { RootStore } from "../../stores/rootStore";
+import Spinner from "../Spinner/Spinner";
 
 const TaskDocumentsList = observer(() => {
   const rootStore = useStoreProvider();
-  const { id } = useParams();
 
-  useEffect(() => {
-    rootStore.taskStore.getFilesForTaskId(id as string);
-  }, [id, rootStore.taskStore]);
+  if (rootStore.taskStore.isFetchingFiles) return <Spinner type="tiny" />;
 
   return (
     <div className={styles.container}>
-      <h5 className={styles.uploadedDocumentsTitle}>
-        Browse documents related to the task
-      </h5>
-      <ul className={styles.documentsList}>
-        {rootStore.taskStore.taskFileData.map((file) => {
-          return (
-            <TaskDocumentsListItem
-              rootStore={rootStore}
-              file={file}
-              key={file.id}
-            />
-          );
-        })}
-      </ul>
+      {rootStore.taskStore.taskFileData.length !== 0 && (
+        <>
+          <h5 className={styles.uploadedDocumentsTitle}>
+            Browse documents related to the task
+          </h5>
+          <ul className={styles.documentsList}>
+            {rootStore.taskStore.taskFileData.map((file) => {
+              return (
+                <TaskDocumentsListItem
+                  rootStore={rootStore}
+                  file={file}
+                  key={file.id}
+                />
+              );
+            })}
+          </ul>
+        </>
+      )}
     </div>
   );
 });
