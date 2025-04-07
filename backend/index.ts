@@ -8,6 +8,7 @@ import { taskRouter } from "./routes/taskRouter";
 import multer from "multer";
 import path from "path";
 import { timerRouter } from "./routes/timerRouter";
+import { statsRouter } from "./routes/statsRouter";
 
 const DEFAULT_PORT: number = 3000;
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/boards", boardRouter);
 app.use("/tasks", taskRouter);
 app.use("/timer", timerRouter);
+app.use("/stats", statsRouter);
 
 // Error middleware
 app.use(errorMiddleware);

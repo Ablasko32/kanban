@@ -10,6 +10,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import React, { Suspense } from "react";
 import Spinner from "./components/Spinner/Spinner";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 const KanbanPage = React.lazy(() => import("./pages/kanban/KanbanPage"));
 const TaskDetails = React.lazy(
@@ -27,10 +28,11 @@ function App() {
 
             <div>
               <Routes>
-                <Route path="/" element={<Navigate to="/create-board" />} />
+                <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/board/:id" element={<KanbanPage />} />
                 <Route path="/create-board" element={<MyBoards />} />
                 <Route path="/task/:id" element={<TaskDetails />} />
+                <Route path="/dashboard" element={<Dashboard />} />
               </Routes>
             </div>
           </div>
