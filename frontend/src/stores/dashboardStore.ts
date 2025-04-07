@@ -1,5 +1,6 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import { ApiClient } from "../core/ApiClient";
+import { RootStore } from "./rootStore";
 
 interface TaskStatusData {
   open: number;
@@ -16,21 +17,33 @@ export class DashboardStore {
   apiClient: ApiClient;
   @observable isFetching = false;
   @observable dashboardData: DashboardData | {} = {};
+  @observable boardList = [];
+  @observable selectedBoardId: string = "";
 
-  constructor() {
+  constructor(public rootStore: RootStore) {
     makeObservable(this);
     this.apiClient = new ApiClient();
   }
 
   @action.bound
-  async getDashboardData() {
+  async getDashboardData(filter = "all") {
     runInAction(() => {
       this.isFetching = true;
     });
-    const data = await this.apiClient.get("stats/dashboard");
+    await this.rootStore.boardStore.fetchAllBoards();
+    const data = await this.apiClient.get(`stats/dashboard?board=${filter}`);
+
     runInAction(() => {
       this.dashboardData = data.data;
       this.isFetching = false;
     });
+  }
+
+  @action.bound
+  async handleBoardChange(boardId: string) {
+    runInAction(() => {
+      this.selectedBoardId = boardId;
+    });
+    this.getDashboardData(boardId);
   }
 }

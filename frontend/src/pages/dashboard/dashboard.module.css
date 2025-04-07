@@ -1,3 +1,13 @@
 .container {
   padding: 2rem;
 }
+
+.boardFilter {
+  text-transform: capitalize;
+  padding: 0.8rem 2rem;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  background-color: var(--card-bg);
+  cursor: pointer;
+}

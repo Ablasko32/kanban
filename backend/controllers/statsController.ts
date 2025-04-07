@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { db } from "../config/db";
 import { tasksTable } from "../db/schema";
+import { eq } from "drizzle-orm";
 
 export const getDashboardStats = async (
   req: Request,
@@ -8,7 +9,16 @@ export const getDashboardStats = async (
   next: NextFunction
 ) => {
   try {
-    const taskData = await db.select().from(tasksTable);
+    const { board } = req.query;
+    console.log(board);
+
+    let query = db.select().from(tasksTable).$dynamic();
+
+    if (board !== "all") {
+      query = query.where(eq(tasksTable.boardId, Number(board)));
+    }
+
+    const taskData = await query.execute();
 
     let taskStatus = taskData.reduce(
       (total, task) => {

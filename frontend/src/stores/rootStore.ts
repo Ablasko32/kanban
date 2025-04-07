@@ -16,6 +16,6 @@ export class RootStore {
     this.timerStore = new TimerStore();
     this.notificationStore = new NotificationStore();
     this.boardStore = new BoardStore();
-    this.dashboardStore = new DashboardStore();
+    this.dashboardStore = new DashboardStore(this);
   }
 }
