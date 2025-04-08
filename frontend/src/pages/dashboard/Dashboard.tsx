@@ -6,6 +6,7 @@ import { observer } from "mobx-react";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import Spinner from "../../components/Spinner/Spinner";
 import { Board } from "../../components/BoardCard/BoardCard";
+import DashboardTimeStats from "../../components/DashboardTimeStats/DashboardTimeStats";
 
 const Dashboard = observer(() => {
   const { dashboardStore, boardStore } = useStoreProvider();
@@ -37,6 +38,7 @@ const Dashboard = observer(() => {
         })}
       </select>
       <DashboardTaskStats stats={dashboardStore.dashboardData.taskStatusData} />
+      <DashboardTimeStats stats={dashboardStore.dashboardData.taskTimeData} />
     </div>
   );
 });

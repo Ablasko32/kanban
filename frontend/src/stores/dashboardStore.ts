@@ -9,8 +9,14 @@ interface TaskStatusData {
   progress: number;
 }
 
+interface TaskTimeData {
+  total: number;
+  average: number;
+}
+
 interface DashboardData {
   taskStatusData: TaskStatusData;
+  taskTimeData: TaskTimeData;
 }
 
 export class DashboardStore {

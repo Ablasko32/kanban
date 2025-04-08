@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { db } from "../config/db";
-import { tasksTable } from "../db/schema";
+import { tasksTable, taskTimeTable } from "../db/schema";
 import { eq } from "drizzle-orm";
 
 export const getDashboardStats = async (
@@ -14,8 +14,15 @@ export const getDashboardStats = async (
 
     let query = db.select().from(tasksTable).$dynamic();
 
+    let timeQuery = db
+      .select()
+      .from(taskTimeTable)
+      .leftJoin(tasksTable, eq(taskTimeTable.taskId, tasksTable.id))
+      .$dynamic();
+
     if (board !== "all") {
       query = query.where(eq(tasksTable.boardId, Number(board)));
+      timeQuery = timeQuery.where(eq(tasksTable.boardId, Number(board)));
     }
 
     const taskData = await query.execute();
@@ -33,11 +40,36 @@ export const getDashboardStats = async (
       }
     );
 
+    // TIME CALCULATIONS
+    const timePerBoardRaw = await timeQuery.execute();
+
+    const mergeTimePerBoard = timePerBoardRaw.map((el) => ({
+      ...el.taskTime,
+      ...el.tasks,
+    }));
+
+    // const uniqueTaskIds = new Set<number>();
+
+    // const numberOfTasks = mergeTimePerBoard.forEach((el) => {
+    //   uniqueTaskIds.add(el.taskId as number);
+    // });
+
+    // Total time
+    const totalTime = mergeTimePerBoard
+      .map((timeEntry) => timeInSeconds(timeEntry.startTime, timeEntry.endTime))
+      .reduce((acc, current) => acc + current, 0);
+
+    const averageTime = totalTime / taskData.length;
+
     // Final data format
     const dashboardData = {
       taskStatusData: {
         ...taskStatus,
         total: taskData.length,
+      },
+      taskTimeData: {
+        average: averageTime,
+        total: totalTime,
       },
     };
 
@@ -46,4 +78,20 @@ export const getDashboardStats = async (
     console.error(err);
     next(err);
   }
+};
+
+type TaskStatus = "done" | "progress" | "open";
+
+/* Helper for calculating time  in seconds */
+const timeInSeconds = (
+  startTime: string | Date,
+  endTime: string | Date | null
+) => {
+  if (!startTime || !endTime) return 0;
+  const startTimeDate = new Date(startTime).getTime();
+
+  const endTimeDate = new Date(endTime).getTime();
+
+  const seconds = (endTimeDate - startTimeDate) / 1000;
+  return seconds;
 };
