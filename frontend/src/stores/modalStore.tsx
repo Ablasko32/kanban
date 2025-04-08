@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
 import { ReactNode } from "react";
+import styles from "../components/Modal/modal.module.css";
 
 export class ModalStore {
   content: ReactNode = null;
@@ -23,6 +24,32 @@ export class ModalStore {
     this.content = null;
     this.isOpen = false;
   }
+
+  showConfirm(message: string, onConfirm: () => void) {
+    const ModalContent = () => {
+      return (
+        <div className={styles.showConfirmModal}>
+          <p className={styles.message}>{message}</p>
+          <div className={styles.confirmModalButtons}>
+            <button
+              className={styles.primaryBtn}
+              onClick={() => {
+                onConfirm();
+                this.closeModal();
+              }}
+            >
+              Confirm
+            </button>
+            <button
+              className={styles.secondaryBtn}
+              onClick={() => this.closeModal()}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      );
+    };
+    this.openModal(ModalContent());
+  }
 }
-// Singelton
-export const modalStore = new ModalStore();

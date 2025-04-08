@@ -11,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import React, { Suspense } from "react";
 import Spinner from "./components/Spinner/Spinner";
 import Dashboard from "./pages/dashboard/Dashboard";
+import GlobalModal from "./components/GlobalModal/GlobalModal";
+import Modal from "./components/Modal/Modal";
 
 const KanbanPage = React.lazy(() => import("./pages/kanban/KanbanPage"));
 const TaskDetails = React.lazy(
@@ -21,8 +23,8 @@ const MyBoards = React.lazy(() => import("./pages/my-boards/MyBoards"));
 function App() {
   return (
     <Suspense fallback={<Spinner />}>
-      <Router>
-        <StoreProvider>
+      <StoreProvider>
+        <Router>
           <div className={styles.mainLayout}>
             <Navigation />
 
@@ -42,8 +44,9 @@ function App() {
             position="bottom-right"
             autoClose={5000}
           />
-        </StoreProvider>
-      </Router>
+          <Modal />
+        </Router>
+      </StoreProvider>
     </Suspense>
   );
 }

@@ -58,9 +58,11 @@ const TaskDocumentsListItem = observer(
           <Tooltip text="Delete document">
             <button
               onClick={() =>
-                rootStore.taskStore.deleteTaskFilesById(
-                  String(file.id),
-                  file.taskId
+                rootStore.modalStore.showConfirm("Are you sure?", () =>
+                  rootStore.taskStore.deleteTaskFilesById(
+                    String(file.id),
+                    file.taskId
+                  )
                 )
               }
               className={styles.deleteButton}

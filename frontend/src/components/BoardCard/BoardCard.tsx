@@ -46,7 +46,12 @@ const BoardCard = observer(({ board }: { board: Board }) => {
           </Link>
         </Tooltip>
       </button>
-      <button onClick={handleBoardDelete} className={styles.delete}>
+      <button
+        onClick={() =>
+          rootStore.modalStore.showConfirm("Are you sure?", handleBoardDelete)
+        }
+        className={styles.delete}
+      >
         <Tooltip text="Delete board">
           <HiOutlineTrash />
         </Tooltip>

@@ -6,9 +6,7 @@ import styles from "./layoutcolumn.module.css";
 import { RootStore } from "../../stores/rootStore";
 import { HiOutlineInformationCircle, HiPlusCircle } from "react-icons/hi";
 import { observer } from "mobx-react";
-import Modal from "../Modal/Modal";
 import { CreateTaskForm } from "./CreateTaskForm";
-import { modalStore } from "../../stores/modalStore";
 
 type RenderType = "progress" | "done" | "open";
 
@@ -99,20 +97,15 @@ const LayoutColumn = observer(
             </Tooltip>
           </div>
 
-          <Modal
-            modalStore={modalStore}
-            trigger={
-              <button
-                onClick={() => modalStore.openModal(<CreateTask />)}
-                className={styles.addButton}
-              >
-                Add task
-                <Tooltip text="Add new task">
-                  <HiPlusCircle />
-                </Tooltip>
-              </button>
-            }
-          />
+          <button
+            onClick={() => rootStore.modalStore.openModal(<CreateTask />)}
+            className={styles.addButton}
+          >
+            Add task
+            <Tooltip text="Add new task">
+              <HiPlusCircle />
+            </Tooltip>
+          </button>
         </div>
 
         <ul className={styles.allTaskList}>

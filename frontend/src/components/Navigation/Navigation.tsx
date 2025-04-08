@@ -2,12 +2,10 @@ import { HiOutlineHeart, HiPlusCircle, HiViewGrid } from "react-icons/hi";
 import styles from "./navigation.module.css";
 import { PiKanban } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import Modal from "../Modal/Modal";
 import { CreateBoardForm } from "./CreateBoardForm";
 import { useStoreProvider } from "../../stores/StoreProvider";
 import { useMemo } from "react";
 import { observer } from "mobx-react";
-import { modalStore } from "../../stores/modalStore";
 import Timer from "../Timer/Timer";
 
 const Navigation = observer(() => {
@@ -60,18 +58,14 @@ const Navigation = observer(() => {
         </li>
 
         <li className={styles.navItem}>
-          <Modal
-            modalStore={modalStore}
-            triggerClassName={styles.navItem}
-            trigger={
-              <span
-                onClick={() => modalStore.openModal(<BoardFormComponent />)}
-              >
-                <HiPlusCircle />
-                Create board
-              </span>
+          <span
+            onClick={() =>
+              rootStore.modalStore.openModal(<BoardFormComponent />)
             }
-          />
+          >
+            <HiPlusCircle />
+            Create board
+          </span>
         </li>
         <li>
           <Link to="/create-board" className={styles.navItem}>

@@ -19,13 +19,16 @@ const Layout = observer(({ id }: { id: string }) => {
   };
 
   const handleDelete = (taskId: string, boardId: string = id) => {
-    try {
-      rootStore.taskStore.deleteTaskById(taskId, boardId);
-      rootStore.notificationStore.sendSucess("Task deleted");
-    } catch (err) {
-      console.error(err);
-      rootStore.notificationStore.sendError("Error deleting task");
-    }
+    const deleteTask = () => {
+      try {
+        rootStore.taskStore.deleteTaskById(taskId, boardId);
+        rootStore.notificationStore.sendSucess("Task deleted");
+      } catch (err) {
+        console.error(err);
+        rootStore.notificationStore.sendError("Error deleting task");
+      }
+    };
+    rootStore.modalStore.showConfirm("Are you sure?", deleteTask);
   };
 
   // DROP HANDLERS FOR EACH COL
