@@ -13,6 +13,7 @@ import Spinner from "./components/Spinner/Spinner";
 import Dashboard from "./pages/dashboard/Dashboard";
 import GlobalModal from "./components/GlobalModal/GlobalModal";
 import Modal from "./components/Modal/Modal";
+import { Test } from "./pages/test/test";
 
 const KanbanPage = React.lazy(() => import("./pages/kanban/KanbanPage"));
 const TaskDetails = React.lazy(
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/create-board" element={<MyBoards />} />
                 <Route path="/task/:id" element={<TaskDetails />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/test" element={<Test />} />
               </Routes>
             </div>
           </div>

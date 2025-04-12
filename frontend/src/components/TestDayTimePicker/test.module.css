@@ -1,0 +1,12 @@
+.inputArea {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
